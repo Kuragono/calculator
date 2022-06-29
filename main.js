@@ -1,30 +1,70 @@
-function add(a,b) {
-    return a + b;
+/**** Constants or value ****/
+
+const DISPLAY = document.getElementById('display');
+let display_value = 0;
+let stored_number_value = 0;
+let stored_operator;
+
+/**** Functions ****/
+
+function add(num) {
+    display_value += num;
 }
 
-function subtract(a,b) {
-    return a - b;
+function subtract(num) {
+    display_value -= num;
 }
 
-function multiply(a,b) {
-    return a * b;
+function multiply(num) {
+    display_value *= num;
 }
 
-function divide(a,b) {
-    return a / b;
+function divide(num) {
+    display_value /= num;
 }
 
-function operate(operator, a, b) {
+function clear() {
+    display_value = 0;
+    DISPLAY.textContent = `${display_value}`;
+}
+
+function operate(operator, num) {
     if (operator === 'ADD') {
-        return add(a,b);
+        add(num);
     } else if (operator === 'SUBTRACT') {
-        return subtract(a,b);
+        subtract(num);
     } else if (operator === 'MULTIPLY') {
-        return multiply(a,b);
+        multiply(num);
     } else if (operator === 'DIVIDE') {
-        return divide(a,b);
+        divide(num);
+    }
+    DISPLAY.textContent = `${display_value}`;
+}
+
+/**** Buttons ****/
+
+const numbers = document.querySelectorAll('.number');
+for (let i = 0; i < numbers.length; i++) {
+    numbers[i].onclick = (a) => {
+        stored_number_value = a.currentTarget.innerText;
     }
 }
 
-console.log(add(8,5),subtract(8,5),multiply(8,5),divide(8,5));
-console.log(operate('ADD',8,5),operate('SUBTRACT',8,5),operate('MULTIPLY',8,5),operate('DIVIDE',8,5))
+const operators = document.querySelectorAll('.operator');
+for (let i = 0; i < operators.length; i++) {
+    operators[i].onclick = (a) => {
+        stored_operator = a.currentTarget.innerText;
+        if (stored_operator == '+') {
+            stored_operator = 'ADD';
+        } else if (stored_operator == '-') {
+            stored_operator = 'SUBTRACT';
+        } else if (stored_operator == '*') {
+            stored_operator = 'MULTIPLY';
+        } else if (stored_operator == '/') {
+            stored_operator = 'DIVIDE';
+        }
+    }  
+}
+
+document.getElementById('btn=').onclick = () => {operate(stored_operator,stored_number_value)};
+document.getElementById('btnc').onclick = () => {clear()};
