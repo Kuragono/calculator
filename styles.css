@@ -1,0 +1,11 @@
+body {
+    background-color: beige;
+}
+
+button {
+    background-color: yellowgreen;
+}
+
+#display {
+    font-size: 36px;
+}
