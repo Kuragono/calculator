@@ -1,11 +1,11 @@
-/**** Constants or value ****/
+/****************** Constants or value **********************/
 
 const DISPLAY = document.getElementById('display');
 let display_value = 0;
 let stored_number_value = 0;
 let stored_operator;
 
-/**** Functions ****/
+/****************** Functions ******************/
 
 function add(num) {
     display_value += num;
@@ -34,6 +34,7 @@ function divide(num) {
 function clear() {
     display_value = 0;
     stored_number_value = 0;
+    stored_operator = undefined;
     DISPLAY.textContent = `${display_value}`;
 }
 
@@ -52,7 +53,7 @@ function operate(operator, num) {
     stored_number_value = 0;
 }
 
-/**** Buttons ****/
+/********************** Buttons **********************/
 
 const numbers = document.querySelectorAll('.number');
 for (let i = 0; i < numbers.length; i++) {
@@ -65,19 +66,30 @@ for (let i = 0; i < numbers.length; i++) {
 const operators = document.querySelectorAll('.operator');
 for (let i = 0; i < operators.length; i++) {
     operators[i].onclick = (a) => {
-        stored_operator = a.currentTarget.innerText;
-        stored_number_value = parseInt(stored_number_value);
-        if (stored_operator == '+') {
-            stored_operator = 'ADD';
-            add(stored_number_value);
-        } else if (stored_operator == '-') {
-            stored_operator = 'SUBTRACT';
-            subtract(stored_number_value);
-        } else if (stored_operator == '*') {
-            stored_operator = 'MULTIPLY';
-            multiply(stored_number_value);
-        } else if (stored_operator == '/') {
-            divide(stored_number_value);
+        if (stored_operator === undefined) {
+            stored_operator = a.currentTarget.innerText;
+            if (stored_operator == '+') {
+                stored_operator = 'ADD';
+            } else if (stored_operator == '-') {
+                stored_operator = 'SUBTRACT';
+            } else if (stored_operator == '*') {
+                stored_operator = 'MULTIPLY';
+            } else if (stored_operator == '/') {
+                stored_operator = 'DIVIDE';
+            }
+            operate(stored_operator,parseInt(stored_number_value));
+        } else {
+            operate(stored_operator,parseInt(stored_number_value));
+            stored_operator = a.currentTarget.innerText;
+            if (stored_operator == '+') {
+                stored_operator = 'ADD';
+            } else if (stored_operator == '-') {
+                stored_operator = 'SUBTRACT';
+            } else if (stored_operator == '*') {
+                stored_operator = 'MULTIPLY';
+            } else if (stored_operator == '/') {
+                stored_operator = 'DIVIDE';
+            }
         }
     }  
 }
